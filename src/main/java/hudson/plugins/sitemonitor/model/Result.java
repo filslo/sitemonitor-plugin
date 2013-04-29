@@ -28,7 +28,29 @@ public class Result {
      * exception message when the site monitoring gives an unexpected exception.
      */
     private String mNote;
+    
+    /**
+     * real url monitored, especially for site url using job variables
+     */
+    private String mMonitoredURL;
 
+    /**
+     * Constructs a {@link Result}.
+     * @param site the monitored site
+     * @param responseCode the response code returned from the site
+     * @param status status of the monitored site
+     * @param note additional textual information of the result
+     * @param mMonitoredURL actual monitored URL
+     */
+    public Result(final Site site, final Integer responseCode,
+            final Status status, final String note, String monitoredURL) {
+        this.mSite = site;
+        this.mResponseCode = responseCode;
+        this.mStatus = status;
+        this.mNote = note;
+        this.mMonitoredURL = monitoredURL;
+    }
+    
     /**
      * Constructs a {@link Result}.
      * @param site the monitored site
@@ -38,37 +60,48 @@ public class Result {
      */
     public Result(final Site site, final Integer responseCode,
             final Status status, final String note) {
-        mSite = site;
-        mResponseCode = responseCode;
-        mStatus = status;
-        mNote = note;
+        this.mSite = site;
+        this.mResponseCode = responseCode;
+        this.mStatus = status;
+        this.mNote = note;
+        
+        if( this.mSite != null ) {
+        	this.mMonitoredURL = this.mSite.getUrl();
+        }
     }
 
     /**
      * @return the monitored site
      */
     public final Site getSite() {
-        return mSite;
+        return this.mSite;
     }
 
     /**
      * @return the response code
      */
     public final Integer getResponseCode() {
-        return mResponseCode;
+        return this.mResponseCode;
     }
 
     /**
      * @return the status of the monitored site
      */
     public final Status getStatus() {
-        return mStatus;
+        return this.mStatus;
     }
 
     /**
      * @return the note
      */
     public final String getNote() {
-        return mNote;
+        return this.mNote;
     }
+
+	/**
+	 * @return the monitoredURL
+	 */
+	public String getMonitoredURL() {
+		return this.mMonitoredURL;
+	}
 }

@@ -33,74 +33,87 @@ import org.apache.commons.lang.math.NumberUtils;
 
 /**
  * This class provides validation functions.
+ * 
  * @author cliffano
  */
 public class SiteMonitorValidator {
 
-    /**
-     * Validates a URL.
-     * @param url
-     *            the web site URL
-     * @return false when URL is malformed, true otherwise
-     */
-    public final FormValidation validateUrl(final String url) {
-        FormValidation validation = FormValidation.ok();
-        if (StringUtils.isNotBlank(url)) {
-            if (url.startsWith("http://") || url.startsWith("https://")) {
-                try {
-                    new URL(url);
-                } catch (MalformedURLException mue) {
-                    validation = FormValidation.error(Messages.SiteMonitor_Error_MalformedURL());
-                }
-            } else {
-                validation = FormValidation
-                        .error(Messages.SiteMonitor_Error_PrefixOfURL());
-            }
-        }
-        return validation;
-    }
+	/**
+	 * Validates a URL.
+	 * 
+	 * @param url
+	 *            the web site URL
+	 * @return false when URL is malformed, true otherwise
+	 */
+	public final FormValidation validateUrl(final String url) {
+		FormValidation validation = FormValidation.ok();
 
-    /**
-     * Validates HTTP connection timeout value.
-     * @param timeout
-     *            the time out value in seconds
-     * @return true when timeout value is valid, false otherwise
-     */
-    public final FormValidation validateTimeout(final String timeout) {
-        FormValidation validation = FormValidation.ok();
-        if (StringUtils.isBlank(timeout)) {
-            validation = FormValidation.error(Messages.SiteMonitor_Error_TimeoutIsBlank());
-        } else if (!NumberUtils.isDigits(timeout)) {
-            validation = FormValidation.error(Messages.SiteMonitor_Error_TimeoutIsNotDigit());
-        }
-        return validation;
-    }
+		if (StringUtils.isNotBlank(url)) {
+			if (url.contains("$")) {
+				// since this is used to disable projects, be conservative
+//				LOGGER.fine("Location could be expanded on build '" + build
+//						+ "' parameters values:");
+			} else {
+				if (url.startsWith("http://") || url.startsWith("https://")) {
+					try {
+						new URL(url);
+					} catch (MalformedURLException mue) {
+						validation = FormValidation.error(Messages
+								.SiteMonitor_Error_MalformedURL());
+					}
+				} else {
+					validation = FormValidation.error(Messages
+							.SiteMonitor_Error_PrefixOfURL());
+				}
+			}
+		}
+		return validation;
+	}
 
-    /**
-     * Validates a comma-separated HTTP response codes.
-     * @param responseCodes
-     *            the response codes
-     * @return true if all response codes are valid, false otherwise
-     */
-    public final FormValidation validateResponseCodes(
-            final String responseCodes) {
-        FormValidation validation = FormValidation.ok();
-        List<String> invalidResponseCodes = new ArrayList<String>();
-        if (StringUtils.isNotBlank(responseCodes)) {
-            for (String responseCode : responseCodes.split(",")) {
-                if (!NumberUtils.isDigits(responseCode.trim())) {
-                    invalidResponseCodes.add(responseCode);
-                }
-            }
-        }
-        if (!invalidResponseCodes.isEmpty()) {
-            StringBuffer errorMessage = new StringBuffer(
-                    Messages.SiteMonitor_Error_InvalidResponseCode());
-            for (String invalidResponseCode : invalidResponseCodes) {
-                errorMessage.append(invalidResponseCode).append(" ");
-            }
-            validation = FormValidation.error(errorMessage.toString());
-        }
-        return validation;
-    }
+	/**
+	 * Validates HTTP connection timeout value.
+	 * 
+	 * @param timeout
+	 *            the time out value in seconds
+	 * @return true when timeout value is valid, false otherwise
+	 */
+	public final FormValidation validateTimeout(final String timeout) {
+		FormValidation validation = FormValidation.ok();
+		if (StringUtils.isBlank(timeout)) {
+			validation = FormValidation.error(Messages
+					.SiteMonitor_Error_TimeoutIsBlank());
+		} else if (!NumberUtils.isDigits(timeout)) {
+			validation = FormValidation.error(Messages
+					.SiteMonitor_Error_TimeoutIsNotDigit());
+		}
+		return validation;
+	}
+
+	/**
+	 * Validates a comma-separated HTTP response codes.
+	 * 
+	 * @param responseCodes
+	 *            the response codes
+	 * @return true if all response codes are valid, false otherwise
+	 */
+	public final FormValidation validateResponseCodes(final String responseCodes) {
+		FormValidation validation = FormValidation.ok();
+		List<String> invalidResponseCodes = new ArrayList<String>();
+		if (StringUtils.isNotBlank(responseCodes)) {
+			for (String responseCode : responseCodes.split(",")) {
+				if (!NumberUtils.isDigits(responseCode.trim())) {
+					invalidResponseCodes.add(responseCode);
+				}
+			}
+		}
+		if (!invalidResponseCodes.isEmpty()) {
+			StringBuilder errorMessage = new StringBuilder(
+					Messages.SiteMonitor_Error_InvalidResponseCode());
+			for (String invalidResponseCode : invalidResponseCodes) {
+				errorMessage.append(invalidResponseCode).append(" ");
+			}
+			validation = FormValidation.error(errorMessage.toString());
+		}
+		return validation;
+	}
 }

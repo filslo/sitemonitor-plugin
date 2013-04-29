@@ -45,7 +45,7 @@ public class SiteMonitorRootAction implements RootAction {
      *            site monitoring results
      */
     public SiteMonitorRootAction(final List<Result> results) {
-        mResults = results;
+    	this.mResults = results;
     }
 
     /**
@@ -73,6 +73,6 @@ public class SiteMonitorRootAction implements RootAction {
      * @return site monitoring results
      */
     public final List<Result> getResults() {
-        return mResults;
+        return this.mResults;
     }
 }

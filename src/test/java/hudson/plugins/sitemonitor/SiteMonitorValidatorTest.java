@@ -33,6 +33,11 @@ public class SiteMonitorValidatorTest extends TestCase {
         FormValidation validation = validator.validateUrl("");
         assertEquals(FormValidation.Kind.OK, validation.kind);
     }
+    
+    public void testValidateUrlWitVariableShouldGiveOk() {
+        FormValidation validation = validator.validateUrl("$test");
+        assertEquals(FormValidation.Kind.OK, validation.kind);
+    }
 
     public void testValidateUrlWithInvalidProtocolShouldGiveError() {
         FormValidation validation = validator.validateUrl("ftp://hudson-ci.org");

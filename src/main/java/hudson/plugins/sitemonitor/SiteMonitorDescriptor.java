@@ -80,7 +80,7 @@ public class SiteMonitorDescriptor extends BuildStepDescriptor<Publisher> {
     public SiteMonitorDescriptor() {
         super(SiteMonitorRecorder.class);
         load();
-        mValidator = new SiteMonitorValidator();
+        this.mValidator = new SiteMonitorValidator();
     }
 
     /**
@@ -107,11 +107,11 @@ public class SiteMonitorDescriptor extends BuildStepDescriptor<Publisher> {
      * @return the success response codes
      */
     public final List<Integer> getSuccessResponseCodes() {
-        if (mSuccessResponseCodes == null) {
-            mSuccessResponseCodes = new ArrayList<Integer>();
-            mSuccessResponseCodes.add(HttpURLConnection.HTTP_OK);
+        if (this.mSuccessResponseCodes == null) {
+        	this.mSuccessResponseCodes = new ArrayList<Integer>();
+        	this.mSuccessResponseCodes.add(Integer.valueOf(HttpURLConnection.HTTP_OK));
         }
-        return mSuccessResponseCodes;
+        return this.mSuccessResponseCodes;
     }
 
     /**
@@ -129,10 +129,10 @@ public class SiteMonitorDescriptor extends BuildStepDescriptor<Publisher> {
      * @return the timeout value in seconds
      */
     public final Integer getTimeout() {
-        if (mTimeout == null) {
-            mTimeout = DEFAULT_TIMEOUT_IN_SECS;
+        if (this.mTimeout == null) {
+        	this.mTimeout = DEFAULT_TIMEOUT_IN_SECS;
         }
-        return mTimeout;
+        return this.mTimeout;
     }
 
     /**
@@ -184,14 +184,14 @@ public class SiteMonitorDescriptor extends BuildStepDescriptor<Publisher> {
         LOGGER.fine("json: " + json);
 
         if (!StringUtils.isBlank(json.getString("successResponseCodes"))) {
-            mSuccessResponseCodes.clear();
+        	this.mSuccessResponseCodes.clear();
             for (String responseCode : json.getString("successResponseCodes")
                     .split(",")) {
-                mSuccessResponseCodes
-                        .add(Integer.parseInt(responseCode.trim()));
+            	this. mSuccessResponseCodes
+                        .add(Integer.valueOf(responseCode.trim()));
             }
         }
-        mTimeout = json.getInt("timeout");
+        this.mTimeout = Integer.valueOf(json.getInt("timeout"));
         save();
         return true;
     }
@@ -202,7 +202,7 @@ public class SiteMonitorDescriptor extends BuildStepDescriptor<Publisher> {
      * @return true if value is a valid URL, false otherwise
      */
     public final FormValidation doCheckUrl(@QueryParameter final String value) {
-        return mValidator.validateUrl(value);
+        return this.mValidator.validateUrl(value);
     }
 
     /**
@@ -213,7 +213,7 @@ public class SiteMonitorDescriptor extends BuildStepDescriptor<Publisher> {
      */
     public final FormValidation doCheckResponseCodes(
             @QueryParameter final String value) {
-        return mValidator.validateResponseCodes(value);
+        return this.mValidator.validateResponseCodes(value);
     }
 
     /**
@@ -223,6 +223,6 @@ public class SiteMonitorDescriptor extends BuildStepDescriptor<Publisher> {
      */
     public final FormValidation doCheckTimeout(
             @QueryParameter final String value) {
-        return mValidator.validateTimeout(value);
+        return this.mValidator.validateTimeout(value);
     }
 }
