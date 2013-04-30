@@ -152,15 +152,16 @@
 <version>2.4.1</version>
 </plugin>
 	</plugins>
-</build>
-<!-- webdav for cloudbees-->
-<extensions>
+	<extensions>
   <extension>
     <groupId>org.apache.maven.wagon</groupId>
     <artifactId>wagon-webdav-jackrabbit</artifactId>
     <version>2.4</version>
   </extension>
 </extensions>
+</build>
+<!-- webdav for cloudbees-->
+
 	<reporting>
 		<plugins>
 			<plugin>
