@@ -225,9 +225,9 @@
 	</reporting>
 
 	<scm>
-		<connection>scm:git:git://github.com/jenkinsci/sitemonitor-plugin.git</connection>
-		<developerConnection>scm:git:git@github.com:jenkinsci/sitemonitor-plugin.git</developerConnection>
-		<url>https://github.com/jenkinsci/sitemonitor-plugin</url>
+		<connection>scm:git:git://github.com/filslo/sitemonitor-plugin.git</connection>
+		<developerConnection>scm:git:git@github.com:filslo/sitemonitor-plugin.git</developerConnection>
+		<url>https://github.com/filslo/sitemonitor-plugin</url>
 	</scm>
 
 	<pluginRepositories>
