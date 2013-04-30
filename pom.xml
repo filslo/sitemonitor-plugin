@@ -236,5 +236,19 @@
 			<url>http://repo.jenkins-ci.org/public/</url>
 		</pluginRepository>
 	</pluginRepositories>
+	
+	<distributionManagement>
+<downloadUrl>https://github.com/filslo/sitemonitor-plugin/</downloadUrl>
+<repository>
+<id>filslo-cloudbees-release</id>
+<name>filslo-cloudbees-release</name>
+<url>dav:https://repository-filslo.forge.cloudbees.com/release/</url>
+</repository>
+<snapshotRepository>
+<id>filslo-cloudbees-snapshot</id>
+<name>filslo-cloudbees-snapshot</name>
+<url>dav:https://repository-filslo.forge.cloudbees.com/snapshot/</url>
+</snapshotRepository>
+</distributionManagement>
 </project>  
 
