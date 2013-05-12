@@ -51,21 +51,24 @@ public class SiteMonitorRootAction implements RootAction {
     /**
      * @return the text of site monitor link on the left menu on build page.
      */
-    public final String getDisplayName() {
+    @Override
+	public final String getDisplayName() {
         return Messages.SiteMonitor_DisplayName();
     }
 
     /**
      * @return the icon of site monitor link on the left menu on build page.
      */
-    public final String getIconFileName() {
+    @Override
+	public final String getIconFileName() {
         return "/plugin/sitemonitor/images/icon.png";
     }
 
     /**
      * @return the URL of site monitor link on the left menu on build page.
      */
-    public final String getUrlName() {
+    @Override
+	public final String getUrlName() {
         return "sitemonitor";
     }
 
