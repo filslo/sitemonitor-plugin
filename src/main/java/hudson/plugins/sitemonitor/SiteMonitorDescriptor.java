@@ -23,7 +23,6 @@ package hudson.plugins.sitemonitor;
 
 import hudson.Extension;
 import hudson.model.AbstractProject;
-import hudson.plugins.sitemonitor.model.Site;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Publisher;
 import hudson.util.FormValidation;
@@ -33,7 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
@@ -79,11 +77,12 @@ public class SiteMonitorDescriptor extends BuildStepDescriptor<Publisher> {
      */
     public SiteMonitorDescriptor() {
         super(SiteMonitorRecorder.class);
-        load();
+        this.load();
         this.mValidator = new SiteMonitorValidator();
     }
 
-    /**
+
+	/**
      * @return the plugin's display name, used in the job's build drop down list
      */
     @Override
@@ -118,7 +117,7 @@ public class SiteMonitorDescriptor extends BuildStepDescriptor<Publisher> {
      * @return the success response codes in comma-separated value format
      */
     public final String getSuccessResponseCodesCsv() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (Integer successResponseCode : getSuccessResponseCodes()) {
             sb.append(successResponseCode).append(",");
         }
@@ -135,6 +134,14 @@ public class SiteMonitorDescriptor extends BuildStepDescriptor<Publisher> {
         return this.mTimeout;
     }
 
+    
+    @Override
+	public Publisher newInstance(StaplerRequest req, JSONObject formData) throws FormException {
+    	LOGGER.fine(" hudson.plugins.sitemonitor "+ formData);
+    	SiteMonitorRecorder bindObject = req.bindJSON(SiteMonitorRecorder.class, formData);
+    	LOGGER.fine("bindObject "+bindObject);
+		return bindObject;
+    }
     /**
      * Handles SiteMonitor configuration for each job.
      * @param request
@@ -143,47 +150,47 @@ public class SiteMonitorDescriptor extends BuildStepDescriptor<Publisher> {
      *            the JSON data containing job configuration values
      * @return the builder with specified sites to be monitored
      */
-    @Override
-    public final Publisher newInstance(final StaplerRequest request,
-            final JSONObject json) {
-        LOGGER.fine("json: " + json);
-
-        List<Site> sites = new ArrayList<Site>();
-
-        Object sitesObject = json.get("sites");
-        if (sitesObject instanceof JSONObject) {
-            for (Object siteObject : json.getJSONObject("sites").values()) {
-                String url = String.valueOf(siteObject);
-                sites.add(new Site(url));
-            }
-            Site site = toSite((JSONObject) sitesObject);
-            sites.add(site);
-        } else if (sitesObject instanceof JSONArray) {
-            for (Object siteObject : (JSONArray) sitesObject) {
-                if (siteObject instanceof JSONObject) {
-                	 Site site = toSite((JSONObject) siteObject);
-                	 sites.add(site);
-                }
-            }
-        } else {
-            LOGGER.warning("Unable to parse 'sites' object in JSON data. "
-                    + "It's neither JSONObject nor JSONArray");
-        }
-        return new SiteMonitorRecorder(sites);
-    }
-
-    /**
-     * Converts the json object to the Site.
-     * @param siteObject 
-     *            the siteObject submitted
-     * @return the new Site
-     */
-    private Site toSite(JSONObject siteObject) {
-        String url = siteObject.getString("url");
-        String regex = siteObject.getString("regularExpression");
-        boolean regexFlag = siteObject.getBoolean("failWhenRegexNotFound");
-        return new Site(url, regex, regexFlag);
-    }
+//    @Override
+//    public final Publisher newInstance(final StaplerRequest request,
+//            final JSONObject json) {
+//        LOGGER.fine("json: " + json);
+//
+//        List<Site> sites = new ArrayList<Site>();
+//
+//        Object sitesObject = json.get("sites");
+//        if (sitesObject instanceof JSONObject) {
+//            for (Object siteObject : json.getJSONObject("sites").values()) {
+//                String url = String.valueOf(siteObject);
+//                sites.add(new Site(url));
+//            }
+//            Site site = toSite((JSONObject) sitesObject);
+//            sites.add(site);
+//        } else if (sitesObject instanceof JSONArray) {
+//            for (Object siteObject : (JSONArray) sitesObject) {
+//                if (siteObject instanceof JSONObject) {
+//                	 Site site = toSite((JSONObject) siteObject);
+//                	 sites.add(site);
+//                }
+//            }
+//        } else {
+//            LOGGER.warning("Unable to parse 'sites' object in JSON data. "
+//                    + "It's neither JSONObject nor JSONArray");
+//        }
+//        return new SiteMonitorRecorder(sites);
+//    }
+//
+//    /**
+//     * Converts the json object to the Site.
+//     * @param siteObject 
+//     *            the siteObject submitted
+//     * @return the new Site
+//     */
+//    private Site toSite(JSONObject siteObject) {
+//        String url = siteObject.getString("url");
+//        String regex = siteObject.getString("regularExpression");
+//        boolean regexFlag = siteObject.getBoolean("failWhenRegexNotFound");
+//        return new Site(url, regex, regexFlag);
+//    }
     
     /**
      * Handles SiteMonitor global configuration per Jenkins instance.
@@ -207,7 +214,7 @@ public class SiteMonitorDescriptor extends BuildStepDescriptor<Publisher> {
             }
         }
         this.mTimeout = Integer.valueOf(json.getInt("timeout"));
-        save();
+        this.save();
         return true;
     }
 
@@ -237,7 +244,7 @@ public class SiteMonitorDescriptor extends BuildStepDescriptor<Publisher> {
      * @return true if value is a valid Regex, false otherwise
      */
     public final FormValidation doCheckRegex(@QueryParameter final String value) {
-        return mValidator.validateRegex(value);
+        return this.mValidator.validateRegex(value);
     }
 
     /**

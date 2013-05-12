@@ -34,6 +34,7 @@ import hudson.tasks.BuildStepMonitor;
 import hudson.tasks.Recorder;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
@@ -45,6 +46,7 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 
 import javax.net.ssl.HostnameVerifier;
@@ -56,14 +58,27 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import org.apache.commons.io.IOUtils;
+import org.kohsuke.stapler.DataBoundConstructor;
+
 
 /**
  * Performs the web site monitoring process.
  * 
  * @author cliffano
  */
-public class SiteMonitorRecorder extends Recorder {
+public class SiteMonitorRecorder extends Recorder  implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	   /**
+     * Logger.
+     */
+    private static final Logger LOGGER = Logger
+            .getLogger(SiteMonitorRecorder.class.getName());
+	
 	/**
 	 * 1 sec = 1000 msecs .
 	 */
@@ -80,7 +95,10 @@ public class SiteMonitorRecorder extends Recorder {
 	 * @param sites
 	 *            the list of web sites to monitor
 	 */
+	@DataBoundConstructor
 	public SiteMonitorRecorder(final List<Site> sites) {
+		super ();
+		LOGGER.info(" SiteMonitorRecorder "+ sites);
 		this.mSites = sites;
 	}
 
@@ -97,11 +115,13 @@ public class SiteMonitorRecorder extends Recorder {
 		@Override
 		public void checkClientTrusted(X509Certificate[] arg0, String arg1)
 				throws CertificateException {
+			// Do nothing /always accept
 		}
 
 		@Override
 		public void checkServerTrusted(X509Certificate[] arg0, String arg1)
 				throws CertificateException {
+			// Do nothing /always accept
 		}
 
 		@Override
@@ -278,7 +298,7 @@ public class SiteMonitorRecorder extends Recorder {
         } else {
            note = Messages.SiteMonitor_Status_RegularExpressionNotFound(site.getRegularExpression());
         }
-        return new Result(null, 0, status, note);
+        return new Result(null, Integer.valueOf(0), status, note);
     }
     
     /**
@@ -286,7 +306,22 @@ public class SiteMonitorRecorder extends Recorder {
 	 * 
 	 * @return the BuildStepMonitor
 	 */
+	@Override
 	public final BuildStepMonitor getRequiredMonitorService() {
 		return BuildStepMonitor.NONE;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("SiteMonitorRecorder [");
+		if (this.mSites != null) {
+			builder.append("mSites=");
+			builder.append(this.mSites);
+		}
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	
 }
