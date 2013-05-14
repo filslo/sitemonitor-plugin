@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.jenkins-ci.plugins</groupId>
@@ -9,7 +8,7 @@
  
 	<groupId>org.jvnet.hudson.plugins</groupId>
 	<artifactId>sitemonitor</artifactId>
-	<version>0.6-SNAPSHOT</version>
+	<version>0.6</version>
 	<name>SiteMonitor Plugin</name>
 	<description>Monitors web site up/down status.</description>
 	<url>http://wiki.jenkins-ci.org/display/JENKINS/SiteMonitor+Plugin</url>
@@ -259,7 +258,8 @@
 		<connection>scm:git:https://github.com/filslo/sitemonitor-plugin.git</connection>
 		<developerConnection>scm:git:https://github.com/filslo/sitemonitor-plugin.git</developerConnection>
 		<url>https://github.com/filslo/sitemonitor-plugin</url>
-	</scm>
+	  <tag>sitemonitor-0.6</tag>
+  </scm>
 
 	<pluginRepositories>
 		<pluginRepository>
