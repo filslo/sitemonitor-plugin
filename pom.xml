@@ -238,7 +238,7 @@
 
 	<scm>
 		<connection>scm:git:git://github.com/filslo/sitemonitor-plugin.git</connection>
-		<developerConnection>scm:git:git@github.com:filslo/sitemonitor-plugin.git</developerConnection>
+		<developerConnection>scm:git:git://github.com/filslo/sitemonitor-plugin.git</developerConnection>
 		<url>https://github.com/filslo/sitemonitor-plugin</url>
 	  <tag>sitemonitor-0.6</tag>
   </scm>
