@@ -21,17 +21,28 @@
  */
 package hudson.plugins.sitemonitor.model;
 
+import hudson.Extension;
+import hudson.model.AbstractDescribableImpl;
+import hudson.model.Descriptor;
+
+import java.io.Serializable;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
+import org.kohsuke.stapler.DataBoundConstructor;
 
 /**
  * This class keeps the details of the web site to be monitored.
  * @author cliffano
  */
-public class Site {
+public class Site extends AbstractDescribableImpl<Site> implements Serializable {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * The web site URL.
      */
     private String mUrl;
@@ -57,7 +68,7 @@ public class Site {
      *            the web site URL
      */
     public Site(final String url) {
-        mUrl = url;
+        this.mUrl = url;
     }
 
 
@@ -70,6 +81,7 @@ public class Site {
      * @param failWhenRegexNotFound
      *            the flag for checking the regex
      */
+    @DataBoundConstructor
     public Site(final String url, final String regularExpression, final boolean failWhenRegexNotFound) {
     	this.mUrl = url;
         this.mRegularExpression = regularExpression;
@@ -81,10 +93,10 @@ public class Site {
       * Sets the regex pattern based on the regex.
      */
     private void setRegexPattern() {
-        if (!StringUtils.isEmpty(mRegularExpression)) {
-            mRegularExpressionPattern = Pattern.compile(mRegularExpression);
+        if (!StringUtils.isEmpty(this.mRegularExpression)) {
+            this.mRegularExpressionPattern = Pattern.compile(this.mRegularExpression);
         } else {
-            mRegularExpressionPattern = null;
+            this.mRegularExpressionPattern = null;
         }
     }
 
@@ -109,20 +121,55 @@ public class Site {
 	 * @return the regular expression to check
 	 */
 	public final String getRegularExpression() {
-		return mRegularExpression;
+		return this.mRegularExpression;
 	}
 
 	/**
 	 * @return the Pattern for the regular expression to check
 	 */
 	public final Pattern getRegularExpressionPattern() {
-		return mRegularExpressionPattern;
+		return this.mRegularExpressionPattern;
 	}
 
 	/**
 	 * @return the flag for checking the regex
 	 */
 	public final boolean isFailWhenRegexNotFound() {
-		return mFailWhenRegexNotFound;
+		return this.mFailWhenRegexNotFound;
 	}
+	
+	
+	
+	/*
+	 * Work around for form binding (using constructor with the @DataBoundConstructor annotation), 
+	 */
+	 @Extension
+	    public static class DescriptorImpl extends Descriptor<Site> {
+	        @Override
+			public String getDisplayName() { return ""; }
+	    }
+
+
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Site [");
+		if (this.mUrl != null) {
+			builder.append("mUrl=");
+			builder.append(this.mUrl);
+			builder.append(", ");
+		}
+		if (this.mRegularExpression != null) {
+			builder.append("mRegularExpression=");
+			builder.append(this.mRegularExpression);
+			builder.append(", ");
+		}
+		builder.append("mFailWhenRegexNotFound=");
+		builder.append(this.mFailWhenRegexNotFound);
+		builder.append("]");
+		return builder.toString();
+	}
+	 
+	 
 }
