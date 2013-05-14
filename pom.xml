@@ -147,18 +147,18 @@
 			</configuration>
 		</plugin>
 		<plugin>
-<groupId>org.apache.maven.plugins</groupId>
-<artifactId>maven-release-plugin</artifactId>
-<version>2.4.1</version>
-</plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-release-plugin</artifactId>
+			<version>2.4.1</version>
+		</plugin>
 	</plugins>
 	<extensions>
-  <extension>
-    <groupId>org.apache.maven.wagon</groupId>
-    <artifactId>wagon-webdav-jackrabbit</artifactId>
-    <version>2.4</version>
-  </extension>
-</extensions>
+  		<extension>
+    			<groupId>org.apache.maven.wagon</groupId>
+    			<artifactId>wagon-webdav-jackrabbit</artifactId>
+    			<version>2.4</version>
+  		</extension>
+	</extensions>
 </build>
 <!-- webdav for cloudbees-->
 
@@ -239,7 +239,7 @@
 
 	<scm>
 		<connection>scm:git:git://github.com/filslo/sitemonitor-plugin.git</connection>
-		<developerConnection>scm:git:git@github.com:filslo/sitemonitor-plugin.git</developerConnection>
+		<developerConnection>scm:git:git://github.com/filslo/sitemonitor-plugin.git</developerConnection>
 		<url>https://github.com/filslo/sitemonitor-plugin</url>
 	</scm>
 
@@ -251,17 +251,16 @@
 	</pluginRepositories>
 	
 	<distributionManagement>
-<downloadUrl>https://github.com/filslo/sitemonitor-plugin/</downloadUrl>
-<repository>
-<id>filslo-cloudbees-release</id>
-<name>filslo-cloudbees-release</name>
-<url>dav:https://repository-filslo.forge.cloudbees.com/release/</url>
-</repository>
-<snapshotRepository>
-<id>filslo-cloudbees-snapshot</id>
-<name>filslo-cloudbees-snapshot</name>
-<url>dav:https://repository-filslo.forge.cloudbees.com/snapshot/</url>
-</snapshotRepository>
-</distributionManagement>
+		<downloadUrl>https://github.com/filslo/sitemonitor-plugin/</downloadUrl>
+		<repository>
+			<id>filslo-cloudbees-release</id>
+			<name>filslo-cloudbees-release</name>
+			<url>dav:https://repository-filslo.forge.cloudbees.com/release/</url>
+		</repository>
+		<snapshotRepository>
+			<id>filslo-cloudbees-snapshot</id>
+			<name>filslo-cloudbees-snapshot</name>
+			<url>dav:https://repository-filslo.forge.cloudbees.com/snapshot/</url>
+		</snapshotRepository>
+	</distributionManagement>
 </project>  
-
